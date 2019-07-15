@@ -64,32 +64,42 @@ func test_ganache() {
 
 //测试转账
 func test_transfer() {
-	nm := "august human human affair mechanic night verb metal embark marine orient million"
 
 	// 助记词转化为种子 - > 账户地址
 	// 先推导路径，再获得钱包
-
-	wallet, err := NewFromMnemonic(nm, "")
+	mnemonic := "august human human affair mechanic night verb metal embark marine orient million"
+	wallet, err := NewFromMnemonic(mnemonic, "")
 
 	if err != nil {
 		log.Panic("failed to NewFromMnemonic:", err)
 	}
-	path := MustParseDerivationPath("m/44'/60'/0'/0/0")
+	// path := MustParseDerivationPath("m/44'/60'/0'/0/1")
 
-	account, err := wallet.Derive(path, false)
+	// account, err := wallet.Derive(path, true)
+	// if err != nil {
+	// 	log.Panic("failed to Derive:", err)
+	// }
+
+	// mnemonic := "august human human affair mechanic night verb metal embark marine orient million"
+	// wallet, err := NewFromMnemonic(mnemonic, "")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	path := MustParseDerivationPath("m/44'/60'/0'/0/1") //第2个账户地址
+	account, err := wallet.Derive(path, true)
 	if err != nil {
-		log.Panic("failed to Derive:", err)
+		log.Fatal(err)
 	}
-
 	fmt.Println(account.Address.Hex())
 
-	pkey, err := wallet.derivePrivateKey(path)
+	// pkey, err := wallet.derivePrivateKey(path)
 
-	if err != nil {
-		log.Panic("failed to derivePrivateKey:", err)
-	}
+	// if err != nil {
+	// 	log.Panic("failed to derivePrivateKey:", err)
+	// }
 
-	fmt.Println(*pkey)
+	// fmt.Println(*pkey)
 
 	/*
 
@@ -209,7 +219,7 @@ func test_sendTransaction() {
 func main() {
 	//test_mnemonic()
 	//test_ganache()
-	//test_transfer()
-	test_sendTransaction()
+	test_transfer()
+	//test_sendTransaction()
 	//test_keystore()
 }
